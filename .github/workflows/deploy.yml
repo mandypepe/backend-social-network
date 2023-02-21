@@ -2,7 +2,7 @@ name: Java CI
 on: [push]
 jobs:
   install_pk:
-   runs-on: self-hosted
+    runs-on: self-hosted
     steps:
       - name: install java
         run: |
