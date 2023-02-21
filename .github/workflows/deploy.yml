@@ -1,49 +1,56 @@
-name: deploy
-on:
-  push:
-    branches:
-      - develop
-      - main
-      - master
-
+name: Java CI
+on: [push]
 jobs:
-  run-unit-tests:
+  install_pk:
+   runs-on: self-hosted
+    steps:
+      - name: install java
+        run: |
+          sudo amazon-linux-extras enable corretto8
+          sudo yum install java-1.8.0-amazon-corretto -y
+          sudo yum install java-1.8.0-amazon-corretto-devel -y
+      - name: install maven
+        run: |
+          sudo wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+          sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+          sudo yum install -y apache-maven
+          sudo yum install java-1.8.0-devel -y
+
+  build:
     runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Java
+      - uses: actions/checkout@v3
+      - name: check dir estructure
+        run: |
+          pwd
+          ls -latR
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '18'
           distribution: 'adopt'
-
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v4.4
+          cache: maven
+          check-latest: true
+      - name: Build with Maven glo
+        #working-directory: '$HOME/actions-runner/_work/travels-java-api/travels-java-api/'
+        run: mvn -B package --file pom.xml
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots package
+      - name: Run the Maven verify phase
+        run: mvn --batch-mode --update-snapshots verify
+      - name: Create target dir
+        run: mkdir staging && cp target/*.jar staging
+      - name: check dir estructure
+        run: |
+          pwd
+          ls -latR
+      - name: Create artifac
+        uses: actions/upload-artifact@v3
         with:
-          maven-version: 3.8.2
+          name: Package
+          path: staging
 
-      - name: Unit Tests
-        run: mvn clean package
 
-      - name: Rename the artifact
-        run: cp target/backend-social-network-1.0-SNAPSHOT.jar backend-social-network-${{ github.sha }}.jar
-
-      - name: Save the artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: backend-social-network
-          path: backend-social-network-${{ github.sha }}.jar
-
-  fake-deploy:
-    runs-on: self-hosted
-    needs: run-unit-tests
-    steps:
-      - name: Get the artifact
-        uses: actions/download-artifact@master
-        with:
-          name: backend-social-network
 
       - name: Fake deploy
         run: ls backend-social-network-*.jar
