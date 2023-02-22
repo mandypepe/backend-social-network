@@ -33,7 +33,7 @@ jobs:
       - name:  enable  docker init
         run: sudo systemctl enable docker.service
 
-      - name:  status docker
+      - name:  start  docker
         run: sudo systemctl start docker.service
 
       - name:  status docker
@@ -45,10 +45,11 @@ jobs:
       - name:  pip docker compose
         run: sudo pip3 install docker-compose
 
-      - name:  pip docker compose
+      - name:  pip user docker compose
         run: pip3 install --user docker-compose
 
-
+      - name:  docker compose version
+        run: docker-compose version
 
       - name: descargando maven
         run: |
