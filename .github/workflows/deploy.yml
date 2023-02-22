@@ -2,6 +2,7 @@ name: Java CI
 on: [push]
 env:
   MAVEN_VERSION: 3.9.0
+  M2_HOME: /opt/maven
 jobs:
   build:
     runs-on: self-hosted
@@ -60,6 +61,11 @@ jobs:
 
       - name: reload profile maven.sh
         run:  source /etc/profile.d/maven.sh
+
+      - name: version maven.sh
+        run: |
+          export M2_HOME=${M2_HOME}
+          export PATH=${M2_HOME}/bin:${PATH}     
 
       - name: version maven.sh
         run: mvn -version
