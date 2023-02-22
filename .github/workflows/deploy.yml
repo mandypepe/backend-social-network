@@ -12,17 +12,29 @@ jobs:
           sudo yum install java-11-amazon-corretto.x86_64 -y
           sudo yum list installed | grep java
           java -version
-      - name: install maven
+      - name: descargando maven
         run: |
           wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+      - name: unzip maven
+        run: |
           sudo tar xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
+      - name: create link maven
+        run: |
           sudo ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+      - name: create maven.sh
+        run: |
           sudo touch /etc/profile.d/maven.sh && sudo chmod 777 /etc/profile.d/maven.sh && sudo cat>/etc/profile.d/maven.sh<< EOF export M2_HOME=/opt/maven
           export PATH=${M2_HOME}/bin:${PATH}
           EOF
+      - name: privilegge maven.sh
+        run: |
           sudo chmod 775 /etc/profile.d/maven.sh
           sudo chmod +x /etc/profile.d/maven.sh
+      - name: reload profile maven.sh
+        run: |
           source /etc/profile.d/maven.sh
+      - name: version maven.sh
+        run: |
           mvn -version
       - uses: actions/checkout@v3
       - name: check dir estructure
