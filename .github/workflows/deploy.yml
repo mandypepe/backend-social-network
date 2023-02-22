@@ -23,7 +23,10 @@ jobs:
           sudo ln -sf /opt/apache-maven-${MAVEN_VERSION} /opt/maven
       - name: create maven.sh
         run: |
-          sudo touch -c /etc/profile.d/maven.sh
+          sudo touch /etc/profile.d/maven.sh
+      - name: truncate maven.sh
+        run: |
+          sudo truncate -s 0 /etc/profile.d/maven.sh
       - name: set 777 mode  maven.sh
         run: |
           sudo chmod 777 /etc/profile.d/maven.sh
@@ -32,13 +35,14 @@ jobs:
           sudo test -e /etc/profile.d/maven.sh
       - name: create maven.sh
         run: |
-          sudo test -e /etc/profile.d/maven.sh || sudo cat > /etc/profile.d/maven.sh << EOF 
+          sudo cat > /etc/profile.d/maven.sh << EOF 
           export M2_HOME=/opt/maven
           export PATH=${M2_HOME}/bin:${PATH}
           EOF
       - name: privilegge maven.sh
         run: |
-          sudo chmod 775 /etc/profile.d/maven.sh
+          sudo chmod 755 /etc/profile.d/maven.sh
+          sudo chmod 644 /etc/profile.d/maven.sh
           sudo chmod +x /etc/profile.d/maven.sh
       - name: reload profile maven.sh
         run: |
