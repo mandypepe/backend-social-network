@@ -129,6 +129,7 @@ jobs:
           distribution: 'corretto'
           cache: maven
           check-latest: true
+
       - name: Build with Maven glo
         run: mvn -B package --file pom.xml
 
@@ -137,6 +138,13 @@ jobs:
 
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
+
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Create target dir
         run: mkdir ${JAR_DIR} && cp target/*.jar ${JAR_DIR}
@@ -150,3 +158,6 @@ jobs:
         run: |
           pwd
           ls -latR ${JAR_DIR}
+      -  name: Build the Docker image
+         working-directory: docker
+         run: docker build . --file Dockerfile --tags my-app-java(date +%s)
