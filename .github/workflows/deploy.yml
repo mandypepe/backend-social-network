@@ -64,8 +64,11 @@ jobs:
 
       - name: version maven.sh
         run: |
-          export M2_HOME=${M2_HOME}
-          export PATH=${M2_HOME}/bin:${PATH}     
+          export M2_HOME=/opt/maven
+          export PATH=${M2_HOME}/bin:${PATH} 
+          echo $PATH
+          echo $M2_HOME
+          
 
       - name: version maven.sh
         run: mvn -version
