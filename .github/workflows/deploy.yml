@@ -1,5 +1,7 @@
 name: Java CI
 on: [push]
+env:
+  MAVEN_VERSION: 3.9.0
 jobs:
   build:
     runs-on: self-hosted
@@ -7,15 +9,21 @@ jobs:
       - name: install java
         run: |
           sudo amazon-linux-extras enable corretto8
-          sudo yum install java-1.8.0-amazon-corretto -y
-          sudo yum install java-1.8.0-amazon-corretto-devel -y
+          sudo yum install java-11-amazon-corretto.x86_64 -y
+          sudo yum list installed | grep java
+          java -version
       - name: install maven
         run: |
-          sudo wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-          sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-          sudo yum install -y apache-maven
-          sudo yum install java-1.8.0-devel -y
-
+          wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+          sudo tar xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
+          sudo ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+          sudo touch /etc/profile.d/maven.sh && sudo chmod 777 /etc/profile.d/maven.sh && sudo cat>/etc/profile.d/maven.sh<< EOF export M2_HOME=/opt/maven
+          export PATH=${M2_HOME}/bin:${PATH}
+          EOF
+          sudo chmod 775 /etc/profile.d/maven.sh
+          sudo chmod +x /etc/profile.d/maven.sh
+          source /etc/profile.d/maven.sh
+          mvn -version
       - uses: actions/checkout@v3
       - name: check dir estructure
         run: |
