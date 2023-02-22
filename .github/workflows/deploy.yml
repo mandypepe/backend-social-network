@@ -59,9 +59,6 @@ jobs:
       - name: reload profile maven.sh
         run:  source /etc/profile.d/maven.sh
 
-      - name: version maven.sh
-        run: mvn -version
-
       - uses: actions/checkout@v3
       - name: check dir estructure
         run: |
