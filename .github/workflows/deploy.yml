@@ -97,21 +97,26 @@ jobs:
           cache: maven
           check-latest: true
       - name: Build with Maven glo
-        #working-directory: '$HOME/actions-runner/_work/travels-java-api/travels-java-api/'
         run: mvn -B package --file pom.xml
+
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
+
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
+
       - name: Create target dir
         run: mkdir staging && cp target/*.jar staging
-      - name: check dir estructure
-        run: |
-          pwd
-          ls -latR
+
+
       - name: Create artifac
         uses: actions/upload-artifact@v3
         with:
           name: Package
           path: staging
+      - name: check dir estructure
+        run: |
+          pwd
+          ls -latR
+          ls -latR staging
 
