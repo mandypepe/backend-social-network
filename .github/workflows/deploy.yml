@@ -117,6 +117,5 @@ jobs:
       - name: check dir estructure
         run: |
           pwd
-          ls -latR
           ls -latR staging
 
