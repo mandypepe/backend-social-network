@@ -71,9 +71,10 @@ jobs:
           
 
       - name: version maven.sh
-        env:
-          VERSION: mvn -version
-        run: ${{ toJSON(VERSION) }}
+        run: mvn -version>>version
+
+      - name: cat version maven.sh
+        run: cat version
 
       - uses: actions/checkout@v3
       - name: check dir estructure
