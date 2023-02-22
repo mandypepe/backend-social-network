@@ -27,9 +27,13 @@ jobs:
       - name: set 777 mode  maven.sh
         run: |
           sudo chmod 777 /etc/profile.d/maven.sh
+      - name: test if maven.sh
+        run: |
+          sudo test -e /etc/profile.d/maven.sh
       - name: create maven.sh
         run: |
-          sudo cat>/etc/profile.d/maven.sh<< EOF export M2_HOME=/opt/maven
+          sudo test -e /etc/profile.d/maven.sh || sudo cat > /etc/profile.d/maven.sh << EOF 
+          export M2_HOME=/opt/maven
           export PATH=${M2_HOME}/bin:${PATH}
           EOF
       - name: privilegge maven.sh
