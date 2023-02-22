@@ -1,8 +1,7 @@
 name: Java CI
 on: [push]
 env:
-  MAVEN_VERSION: 3.9.0
-  M2_HOME: /opt/maven
+  MAVEN_VERSION: 3.8.1
 jobs:
   build:
     runs-on: self-hosted
@@ -11,18 +10,24 @@ jobs:
         run: |
           sudo amazon-linux-extras enable corretto8
           sudo yum install java-11-amazon-corretto.x86_64 -y
+      - name: list install java
+        run: |
           sudo yum list installed | grep java
+
+      - name:  java version
+        run: |
           java -version
+
       - name: descargando maven
         run: |
-          wget https://dlcdn.apache.org/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz
+          wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
       - name: unzip maven
         run: |
-          sudo tar xvf apache-maven-3.9.0-bin.tar.gz -C /opt
+          sudo tar xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
 
       - name: create link maven
-        run:  sudo ln -sf /opt/apache-maven-3.9.0 /opt/maven
+        run:  sudo ln -sf /opt/apache-maven-${MAVEN_VERSION} /opt/maven
 
       - name: create link maven
         run:  sudo ln -sf /opt/maven/bin/mvn mvn
