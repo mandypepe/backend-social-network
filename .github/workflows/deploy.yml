@@ -20,7 +20,7 @@ jobs:
           sudo tar xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
       - name: create link maven
         run: |
-          sudo ln -s /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+          sudo ln -sf /opt/apache-maven-${MAVEN_VERSION} /opt/maven
       - name: create maven.sh
         run: |
           sudo touch /etc/profile.d/maven.sh && sudo chmod 777 /etc/profile.d/maven.sh && sudo cat>/etc/profile.d/maven.sh<< EOF export M2_HOME=/opt/maven
