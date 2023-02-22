@@ -1,7 +1,7 @@
 name: Java CI
 on: [push]
 env:
-  MAVEN_VERSION: 3.8.7
+  MAVEN_VERSION: 3.9.0
 jobs:
   build:
     runs-on: self-hosted
@@ -32,6 +32,7 @@ jobs:
 
       - name: create link maven
         run:  sudo ln -sf /opt/maven/bin/mvn mvn
+
       - name: create maven.sh
         run: sudo touch /etc/profile.d/maven.sh
 
@@ -78,7 +79,7 @@ jobs:
           echo $M2_HOME       
 
       - name: version maven.sh
-        run: mvn -version>>version
+        run: mvn --version>>version
 
       - name: cat version maven.sh
         run: cat version
@@ -91,8 +92,7 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '18'
-          distribution: 'adopt'
+          java-version: '11'
           cache: maven
           check-latest: true
       - name: Build with Maven glo
