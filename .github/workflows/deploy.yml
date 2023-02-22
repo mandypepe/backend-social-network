@@ -27,6 +27,9 @@ jobs:
       - name:  Reload a Linux user's group assignments to docker
         run: newgrp docker
 
+      - name:  Reload a Linux user's group assignments to docker
+        run: docker -version
+
       - name: descargando maven
         run: |
           #wget https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/${MAVEN_VERSION}/apache-maven-${MAVEN_VERSION}-bin.tar.gz
