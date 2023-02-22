@@ -19,7 +19,7 @@ jobs:
         run: |
           java -version
       - name:  docker install
-        run: sudo yum install docker
+        run: sudo yum install docker -y
 
       - name:  Add group membership
         run: sudo usermod -a -G docker $USER
