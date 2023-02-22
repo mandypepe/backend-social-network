@@ -28,7 +28,7 @@ jobs:
         run: newgrp docker
 
       - name:  Reload a Linux user's group assignments to docker
-        run: docker -version
+        run: docker --version
 
       - name: descargando maven
         run: |
