@@ -24,51 +24,8 @@ jobs:
       - name: create link maven
         run:  sudo ln -sf /opt/apache-maven-3.9.0 /opt/maven
 
-      - name: create maven.sh
-        run: sudo touch /etc/profile.d/maven.sh
-
-      - name: truncate maven.sh
-        run: sudo truncate -s 0 /etc/profile.d/maven.sh
-
-
-      - name: set 777 mode  maven.sh
-        run: sudo chmod 777 /etc/profile.d/maven.sh
-
-      - name: set 777 mode  maven.sh
-        run: sudo ls -l /etc/profile.d/maven.sh
-
-      - name: create maven.sh
-        run: |
-          sudo cat > /etc/profile.d/maven.sh << EOF 
-          export M2_HOME=/opt/maven
-          export PATH=${M2_HOME}/bin:${PATH}
-          EOF
-
-      - name: check privilege  maven.sh
-        run: sudo ls -l /etc/profile.d/maven.sh
-
-      - name: check content maven.sh
-        run:  sudo cat /etc/profile.d/maven.sh
-
-      - name: check content maven.sh
-        run: sudo ls -l /etc/profile.d/maven.sh
-
-      - name: privilegge maven.sh
-        run: |
-          sudo chmod 755 /etc/profile.d/maven.sh
-          sudo chmod 644 /etc/profile.d/maven.sh
-          sudo chmod +x /etc/profile.d/maven.sh
-
-      - name: reload profile maven.sh
-        run:  source /etc/profile.d/maven.sh
-
-      - name: version maven.sh
-        run: |
-          export M2_HOME=/opt/maven
-          export PATH=${M2_HOME}/bin:${PATH} 
-          echo $PATH
-          echo $M2_HOME
-          
+      - name: create link maven
+        run:  sudo ln -sf /opt/maven/bin/mvn mvn
 
       - name: version maven.sh
         run: mvn -version>>version
