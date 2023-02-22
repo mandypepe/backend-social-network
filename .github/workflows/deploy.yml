@@ -14,27 +14,27 @@ jobs:
           java -version
       - name: descargando maven
         run: |
-          wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+          wget https://dlcdn.apache.org/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz
+
       - name: unzip maven
         run: |
-          sudo tar xvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt
+          sudo tar xvf apache-maven-3.9.0-bin.tar.gz -C /opt
+
       - name: create link maven
-        run: |
-          sudo ln -sf /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+        run:  sudo ln -sf /opt/apache-maven-3.9.0 /opt/maven
+
       - name: create maven.sh
-        run: |
-          sudo touch /etc/profile.d/maven.sh
+        run: sudo touch /etc/profile.d/maven.sh
+
       - name: truncate maven.sh
-        run: |
-          sudo truncate -s 0 /etc/profile.d/maven.sh
+        run: sudo truncate -s 0 /etc/profile.d/maven.sh
+
 
       - name: set 777 mode  maven.sh
-        run: |
-          sudo chmod 777 /etc/profile.d/maven.sh
+        run: sudo chmod 777 /etc/profile.d/maven.sh
 
-      - name: test if maven.sh
-        run: |
-          sudo test -e /etc/profile.d/maven.sh
+      - name: set 777 mode  maven.sh
+        run: sudo ls -l /etc/profile.d/maven.sh
 
       - name: create maven.sh
         run: |
@@ -43,9 +43,11 @@ jobs:
           export PATH=${M2_HOME}/bin:${PATH}
           EOF
 
+      - name: check privilege  maven.sh
+        run: sudo ls -l /etc/profile.d/maven.sh
+
       - name: check content maven.sh
-        run: |
-          sudo cat /etc/profile.d/maven.sh
+        run:  sudo cat /etc/profile.d/maven.sh
 
       - name: check content maven.sh
         run: sudo ls -l /etc/profile.d/maven.sh
@@ -58,6 +60,9 @@ jobs:
 
       - name: reload profile maven.sh
         run:  source /etc/profile.d/maven.sh
+
+      - name: version maven.sh
+        run: mvn -version
 
       - uses: actions/checkout@v3
       - name: check dir estructure
