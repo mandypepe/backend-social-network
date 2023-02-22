@@ -160,4 +160,4 @@ jobs:
           ls -latR ${JAR_DIR}
       -  name: Build the Docker image
          working-directory: docker
-         run: docker build . --file Dockerfile --tags my-app-java(date +%s)
+         run: docker build . --file Dockerfile --tags my-app-java:$(date +%s)
