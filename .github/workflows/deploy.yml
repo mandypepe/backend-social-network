@@ -2,6 +2,7 @@ name: Java CI
 on: [push]
 env:
   MAVEN_VERSION: 3.9.0
+  JAR_DIR: jarfile
 jobs:
   build:
     runs-on: self-hosted
@@ -17,6 +18,14 @@ jobs:
       - name:  java version
         run: |
           java -version
+      - name:  docker install
+        run: sudo yum install docker
+
+      - name:  Add group membership
+        run: sudo usermod -a -G docker $USER
+
+      - name:  Reload a Linux user's group assignments to docker
+        run: newgrp docker
 
       - name: descargando maven
         run: |
@@ -106,16 +115,14 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify
 
       - name: Create target dir
-        run: mkdir staging && cp target/*.jar staging
-
+        run: mkdir ${JAR_DIR} && cp target/*.jar ${JAR_DIR}
 
       - name: Create artifac
         uses: actions/upload-artifact@v3
         with:
           name: Package
-          path: staging
+          path: ${JAR_DIR}
       - name: check dir estructure
         run: |
           pwd
-          ls -latR staging
-
+          ls -latR ${JAR_DIR}
