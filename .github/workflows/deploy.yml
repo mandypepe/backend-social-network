@@ -27,29 +27,41 @@ jobs:
       - name: truncate maven.sh
         run: |
           sudo truncate -s 0 /etc/profile.d/maven.sh
+
       - name: set 777 mode  maven.sh
         run: |
           sudo chmod 777 /etc/profile.d/maven.sh
+
       - name: test if maven.sh
         run: |
           sudo test -e /etc/profile.d/maven.sh
+
       - name: create maven.sh
         run: |
           sudo cat > /etc/profile.d/maven.sh << EOF 
           export M2_HOME=/opt/maven
           export PATH=${M2_HOME}/bin:${PATH}
           EOF
+
+      - name: check content maven.sh
+        run: |
+          sudo cat /etc/profile.d/maven.sh
+
+      - name: check content maven.sh
+        run: sudo ls -l /etc/profile.d/maven.sh
+
       - name: privilegge maven.sh
         run: |
           sudo chmod 755 /etc/profile.d/maven.sh
           sudo chmod 644 /etc/profile.d/maven.sh
           sudo chmod +x /etc/profile.d/maven.sh
+
       - name: reload profile maven.sh
-        run: |
-          source /etc/profile.d/maven.sh
+        run:  source /etc/profile.d/maven.sh
+
       - name: version maven.sh
-        run: |
-          mvn -version
+        run: mvn -version
+
       - uses: actions/checkout@v3
       - name: check dir estructure
         run: |
