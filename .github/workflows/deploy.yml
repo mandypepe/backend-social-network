@@ -31,6 +31,9 @@ jobs:
         run: docker --version
 
       - name:  status docker
+        run: sudo systemctl start docker.service
+
+      - name:  status docker
         run: sudo systemctl status docker.service
 
       - name:  info docker
