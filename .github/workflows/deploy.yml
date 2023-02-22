@@ -27,6 +27,12 @@ jobs:
       - name:  Reload a Linux user's group assignments to docker
         run: newgrp docker
 
+      - name:  Reload bash
+        run: source ~/.bashrc
+
+      - name:  Reload shell
+        run: exec "$SHELL"
+
       - name:  version docker
         run: docker --version
 
