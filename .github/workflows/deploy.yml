@@ -27,8 +27,14 @@ jobs:
       - name:  Reload a Linux user's group assignments to docker
         run: newgrp docker
 
-      - name:  Reload a Linux user's group assignments to docker
+      - name:  version docker
         run: docker --version
+
+      - name:  status docker
+        run: sudo systemctl status docker.service
+
+      - name:  info docker
+        run: docker info
 
       - name: descargando maven
         run: |
