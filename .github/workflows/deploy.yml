@@ -152,14 +152,15 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Create target dir
-        run: mkdir ${JAR_DIR} && cp target/*.jar ${JAR_DIR}
+      #- name: Create target dir
+      #  run: mkdir ${JAR_DIR} && cp target/*.jar ${JAR_DIR}
 
       - name: Create artifac
         uses: actions/upload-artifact@v3
         with:
           name: Package
           path: ${JAR_DIR}
+
       - name: check dir estructure
         run: |
           pwd
