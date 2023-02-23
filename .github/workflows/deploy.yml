@@ -165,6 +165,10 @@ jobs:
         run: |
           pwd
           ls -latR ${JAR_DIR}
-      -  name: Build the Docker image
-         working-directory: docker
-         run: sudo docker build . --file Dockerfile --tag my-app-java:$(date +%s)
+
+      - name: Build the Docker image
+        working-directory: docker
+        run: sudo docker build . --file Dockerfile --tag my-app-java:$(date +%s)
+
+      - name: Create target dir
+        run: rm ${JAR_DIR}/*.jar
