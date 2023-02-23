@@ -145,12 +145,12 @@ jobs:
       #- name: Run the Maven verify phase
       #  run: mvn --batch-mode --update-snapshots verify
 
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      #- name: Cache Maven packages
+      #  uses: actions/cache@v1
+      #  with:
+      #    path: ~/.m2
+      #    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+      #    restore-keys: ${{ runner.os }}-m2
 
       - name: Create target dir
         run: mkdir ${JAR_DIR} && cp target/*.jar ${JAR_DIR}
