@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: java version
+      - name: user ID
         run: id
 
       - name: install java
