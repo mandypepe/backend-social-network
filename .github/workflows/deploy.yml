@@ -9,6 +9,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: java version
+        run: id
+
       - name: install java
         run: |
           sudo amazon-linux-extras enable corretto8
